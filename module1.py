@@ -97,7 +97,7 @@ def remove_links(comment_body):
   while "u/savevideo" in comment_body:
     start = comment_body.index("u/savevideo")
     comment_body = comment_body[0:start] + comment_body[start+11:]
-  comment_body = comment_body.replace("\n", ". ").replace("\r", " ").replace("_", "")
+  comment_body = comment_body.replace("\n", ". ").replace("\r", " ").replace("_", "").replace("’", "'")
   return comment_body
 
 stop_words = set(stopwords.words('english'))
