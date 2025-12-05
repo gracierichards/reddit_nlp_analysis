@@ -1,3 +1,4 @@
 .vscode/
 __pycache__/module1.cpython-312.pyc
 sorted_txts/
+praw.ini

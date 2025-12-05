@@ -8,11 +8,7 @@ parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(parent_dir)
 from module1 import *
 
-reddit = praw.Reddit(
-    client_id="6MSiXboPbWTdqm72ErnWpQ",
-    client_secret="lswiD1a6bjaHLq-a_22lzhJvEOfOjQ",
-    user_agent="App 1 by busyhope",
-)
+reddit = praw.Reddit("app1")
 
 sub = reddit.subreddit("OMORI")
 
@@ -24,11 +20,12 @@ def top_of_all_time():
     post.comments.replace_more(limit=None)
     all_comments = post.comments.list()
     for comment in all_comments:
-      # if "Adachi" in comment.body or "adachi" in comment.body:
-      #   print("1.", post.id)
-      #   print("2.", comment.id)
-      #   print("3.", comment.author)
-      #   print("4.", comment.body)
+      if "i want to know" in comment.body:
+        print("1.", post.id)
+        print("2.", comment.id)
+        print("3.", comment.author)
+        print("4.", comment.body)
+        sys.exit()
       if is_bot(comment.body):
         continue
       # print(comment.id)

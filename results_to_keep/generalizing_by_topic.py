@@ -54,7 +54,7 @@ def determine_topic(text, parent_topic=None):
     elif primary_topics[i] == "aubrey":
       primary_presence[i] += text.count("auby")
     elif primary_topics[i] == "basil":
-      primary_presence[i] += text.count("bagel")
+      primary_presence[i] += text.count("bagel") + text.count("babil")
     elif primary_topics[i] == "jawsum":
       primary_presence[i] += text.count("jawsom") + text.count("jawsome")
     elif primary_topics[i] == "music":
@@ -113,8 +113,8 @@ def determine_comment_topic(comment, parent_topic):
 
 """Assumes the input is a valid, non-empty comment"""
 def explore_comment(comment, parent_topic):
-  if is_bot(comment.body) or "yes you did" in comment.body.lower() or comment.body.count("i hate basil") > 70:
-    if comment.body.count("i hate basil") > 70:
+  if is_bot(comment.body) or "yes you did" in comment.body.lower() or comment.body.count("I hate basil") > 70:
+    if comment.body.count("I hate basil") > 70:
       print("I found Basil!")
     for reply in comment.replies._comments:
       explore_comment(reply, parent_topic)
@@ -148,13 +148,13 @@ def search_flair(flair):
     for comment in post.comments:
       explore_comment(comment, post_topic)
 
-list_of_posts = open("sorted_txts/posts_seen.txt", "w")
-posts_seen = set()
-txts = {}
-for topic in primary_topics:
-  txts[topic] = open("sorted_txts/" + topic + ".txt", "w")
-top_of_all_time()
-print(len(posts_seen), "posts were collected.")
+# list_of_posts = open("sorted_txts/posts_seen.txt", "w")
+# posts_seen = set()
+# txts = {}
+# for topic in primary_topics:
+#   txts[topic] = open("sorted_txts/" + topic + ".txt", "w")
+# top_of_all_time()
+# print(len(posts_seen), "posts were collected.")
 
 # Continuing from before
 # for topic in primary_topics:
@@ -166,10 +166,10 @@ print(len(posts_seen), "posts were collected.")
 #     posts_seen.add(line.strip())
 #     line = list_of_posts.readline()
 
-for flair in flairs:
-  print(flair)
-  search_flair(flair)
-print(len(posts_seen), "posts were collected.")
+# for flair in flairs:
+#   print(flair)
+#   search_flair(flair)
+# print(len(posts_seen), "posts were collected.")
 
 txts = {}
 for topic in primary_topics:
@@ -179,7 +179,8 @@ cfd = nltk.ConditionalFreqDist((topic0, word)
                                for word in basic_tokenizer(txts[topic0].read()))
 
 for topic in primary_topics:
-  print("---" + topic + "---")
-  top_words = cfd[topic].most_common(1)
-  for word, frequency in top_words:
-      print(f"  {word}: {frequency}")
+  if topic == "hero":
+    print("---" + topic + "---")
+    top_words = cfd[topic].most_common(40)
+    for word, frequency in top_words:
+        print(f"  {word}: {frequency}")
