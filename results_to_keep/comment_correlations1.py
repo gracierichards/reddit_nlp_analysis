@@ -20,13 +20,15 @@ def top_of_all_time():
     post.comments.replace_more(limit=None)
     all_comments = post.comments.list()
     for comment in all_comments:
-      if "i want to know" in comment.body:
-        print("1.", post.id)
-        print("2.", comment.id)
-        print("3.", comment.author)
-        print("4.", comment.body)
+      # if "i want to know" in comment.body:
+      #   print("1.", post.id)
+      #   print("2.", comment.id)
+      #   print("3.", comment.author)
+      #   print("4.", comment.body)
+      #   sys.exit()
+      if "This bot wants to find the best and worst bots on Reddit" in comment.body:
+        print(vars(comment))
         sys.exit()
-      if is_bot(comment.body):
         continue
       # print(comment.id)
       # print(comment.replies._comments)
