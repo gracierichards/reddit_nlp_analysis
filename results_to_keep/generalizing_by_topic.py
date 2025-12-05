@@ -19,7 +19,7 @@ from module1 import *
 # "Adachi" appears 6 times
 
 # All comments will be sorted into one of these 27 categories, or none of the above
-primary_topics = ["sunny", "mari", "hero", "kel", "aubrey", "basil", "sweetheart", "humphrey", "omocat", "jawsum", "pluto", "music", "manga", "sunflower", "sunburn", "undertale", "persona", "earthbound", "deltarune", "ddlc", "sayori", "mewo", "spaceboy", "stranger", "sprout", "maverick", "boen"]
+primary_topics = ["sunny", "mari", "hero", "kel", "aubrey", "basil", "sweetheart", "humphrey", "omocat", "jawsum", "pluto", "music", "manga", "sunflower", "sunburn", "heromari", "undertale", "persona", "earthbound", "deltarune", "ddlc", "mewo", "spaceboy", "stranger", "sprout", "maverick", "boen"]
 
 reddit = praw.Reddit(
     client_id="6MSiXboPbWTdqm72ErnWpQ",
@@ -33,13 +33,20 @@ def determine_topic(text, parent_topic=None):
   primary_presence = [0] * len(primary_topics)
   for i in range(len(primary_topics)):
     if primary_topics[i] == "boen":
-      primary_presence[i] = text.count("bo en") + text.count("your eyes") + text.count("my time") + text.count("oyasumi")
+      # Regex searches if the comment solely consists of "close"
+      primary_presence[i] = text.count("bo en") + len(re.findall('^close$', text)) + text.count("your eyes") + text.count("my time") + len(re.findall('o+y+a+s+u+m+i+', text)) + text.count("o ya su mi")
+      if len(re.findall('o+y+a+s+u+m+i+', text)) >= 1:
+        print(re.findall('o+y+a+s+u+m+i+', text))
     elif primary_topics[i] == "sprout":
       primary_presence[i] = text.count("sprout mole") + text.count("sproutmole")
     elif primary_topics[i] == "spaceboy":
       primary_presence[i] = text.count("spaceboy") + text.count("space boy") + text.count("space ex-husband")
     elif primary_topics[i] == "persona":
-      primary_presence[i] = text.count("persona ") + text.count("adachi") - text.count("tomadachi")
+      primary_presence[i] = len(re.findall(r'persona\b', text)) + len(re.findall(r'\badachi\b', text))
+    elif primary_topics[i] == "hero":
+      primary_presence[i] = len(re.findall(r'\bhero\b', text))
+    elif primary_topics[i] == "mari":
+      primary_presence[i] = len(re.findall(r'\bmari\b', text))
     else:
       primary_presence[i] = text.count(primary_topics[i])
     if primary_topics[i] == "sunny":
@@ -106,7 +113,9 @@ def determine_comment_topic(comment, parent_topic):
 
 """Assumes the input is a valid, non-empty comment"""
 def explore_comment(comment, parent_topic):
-  if is_bot(comment.body) or "yes you did" in comment.body.lower():
+  if is_bot(comment.body) or "yes you did" in comment.body.lower() or comment.body.count("i hate basil") > 70:
+    if comment.body.count("i hate basil") > 70:
+      print("I found Basil!")
     for reply in comment.replies._comments:
       explore_comment(reply, parent_topic)
   else:
@@ -139,13 +148,13 @@ def search_flair(flair):
     for comment in post.comments:
       explore_comment(comment, post_topic)
 
-# list_of_posts = open("sorted_txts/posts_seen.txt", "w")
-# posts_seen = set()
-# txts = {}
-# for topic in primary_topics:
-#   txts[topic] = open("sorted_txts/" + topic + ".txt", "w")
-# top_of_all_time()
-# print(len(posts_seen), "posts were collected.")
+list_of_posts = open("sorted_txts/posts_seen.txt", "w")
+posts_seen = set()
+txts = {}
+for topic in primary_topics:
+  txts[topic] = open("sorted_txts/" + topic + ".txt", "w")
+top_of_all_time()
+print(len(posts_seen), "posts were collected.")
 
 # Continuing from before
 # for topic in primary_topics:
@@ -157,10 +166,10 @@ def search_flair(flair):
 #     posts_seen.add(line.strip())
 #     line = list_of_posts.readline()
 
-# for flair in flairs:
-#   print(flair)
-#   search_flair(flair)
-# print(len(posts_seen), "posts were collected.")
+for flair in flairs:
+  print(flair)
+  search_flair(flair)
+print(len(posts_seen), "posts were collected.")
 
 txts = {}
 for topic in primary_topics:

@@ -1,6 +1,7 @@
 import nltk
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
+import re
 
 flairs = ["Art", "Meme", "Discussion", "Question", "Merch", "Manga", "Cosplay", "Theory", "Meta", "Music", "Guide", "Mod", "Other"]
 
@@ -19,7 +20,7 @@ def is_bot(comment_text):
     return True
   if "This bot wants to find the best and worst bots on Reddit" in comment_text:
     return True
-  if "sausage fingers" in comment_text:
+  if "^with ^issues ^or ^feedback!" in comment_text:
     return True
   if "This comment was left automatically (by a bot)" in comment_text:
     return True
@@ -70,33 +71,13 @@ def remove_links(comment_body):
         break
     start_of_url = comment_body.index("https://")
     comment_body = comment_body[0:start_of_url] + comment_body[start_of_url + url_length:]
-  while "![img](emote" in comment_body:
-    start = comment_body.index("![img](emote")
-    i = start
-    while comment_body[i] != ")":
-      i += 1
-    comment_body = comment_body[0:start] + comment_body[i + 1:]
-  while "![gif](giphy|" in comment_body:
-    start = comment_body.index("![gif](giphy|")
-    i = start
-    while comment_body[i] != ")":
-      i += 1
-    comment_body = comment_body[0:start] + comment_body[i + 1:]
-  while "emote:" in comment_body:
-    start = comment_body.index("emote:")
-    i = start
-    while comment_body[i] != ":":
-      i += 1
-    i += 1
-    while comment_body[i].isnumeric():
-      i += 1
-    comment_body = comment_body[0:start] + comment_body[i:]
-  while "u/savevideobot" in comment_body:
-    start = comment_body.index("u/savevideobot")
-    comment_body = comment_body[0:start] + comment_body[start+14:]
-  while "u/savevideo" in comment_body:
-    start = comment_body.index("u/savevideo")
-    comment_body = comment_body[0:start] + comment_body[start+11:]
+  # Removes ![img](emote...)
+  comment_body = re.sub(r'!\[img\]\(emote[^)]+\)', "", comment_body)
+  # Removes ![gif](giphy|...)
+  comment_body = re.sub(r'!\[gif\]\(giphy\|[^)]+\)', "", comment_body)
+  # Removes emote:
+  comment_body = re.sub(r'emote:\d+', "", comment_body)
+  comment_body = comment_body.replace("u/savevideobot", "").replace("u/savevideo", "")
   comment_body = comment_body.replace("\n", ". ").replace("\r", " ").replace("_", "").replace("’", "'")
   return comment_body
 

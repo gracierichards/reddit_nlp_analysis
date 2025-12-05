@@ -30,9 +30,7 @@ def top_of_all_time():
       #   print("3.", comment.author)
       #   print("4.", comment.body)
       if is_bot(comment.body):
-        sys.exit()
         continue
-      sys.exit()
       # print(comment.id)
       # print(comment.replies._comments)
       # if comment.id == "gijivt3":
