@@ -20,15 +20,13 @@ def top_of_all_time():
     post.comments.replace_more(limit=None)
     all_comments = post.comments.list()
     for comment in all_comments:
-      # if "i want to know" in comment.body:
-      #   print("1.", post.id)
-      #   print("2.", comment.id)
-      #   print("3.", comment.author)
-      #   print("4.", comment.body)
+      if "proship" in comment.body:
+        print("1.", post.id)
+        print("2.", comment.id)
+        print("3.", comment.author)
+        print("4.", comment.body)
       #   sys.exit()
-      if "This bot wants to find the best and worst bots on Reddit" in comment.body:
-        print(vars(comment))
-        sys.exit()
+      if is_bot(comment.body):
         continue
       # print(comment.id)
       # print(comment.replies._comments)
@@ -51,7 +49,7 @@ def search_flair(flair):
     post.comments.replace_more(limit=None)
     all_comments = post.comments.list()
     for comment in all_comments:
-      if 'Adachi' in comment.body or "adachi" in comment.body:
+      if "proship" in comment.body or "Proship" in comment.body:
         print("1.", post.id)
         print("2.", comment.id)
         print("3.", comment.author)
@@ -63,11 +61,11 @@ def search_flair(flair):
 
 # list_of_posts = open("posts_seen.txt", "w")
 # posts_seen = set()
-top_of_all_time()
+# top_of_all_time()
 # comments_csv = open("comments_flairs.csv", "w")
-# for flair in flairs:
-#   print(flair)
-#   search_flair(flair)
+for flair in flairs:
+  print(flair)
+  search_flair(flair)
 # print(len(posts_seen), "posts were collected.")
 
 # Continuing where it leaves off

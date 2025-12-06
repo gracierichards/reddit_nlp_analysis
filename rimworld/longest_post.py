@@ -22,9 +22,10 @@ from module1 import *
 
 # Longest post
 reddit = praw.Reddit("app1")
-sub = reddit.subreddit("OMORI")
+sub = reddit.subreddit("RimWorld")
 longest_title = ""
 num_with_longest_title = 0
+id_of_longest_title = ""
 id_of_longest_post = ""
 len_of_longest_post = 0  
 
@@ -34,6 +35,7 @@ for post in sub.top(limit=None):
   if len(post.title) > len(longest_title):
     longest_title = post.title
     num_with_longest_title = 1
+    id_of_longest_title = post.id
   elif len(post.title) == len(longest_title):
     num_with_longest_title += 1
   
@@ -41,13 +43,14 @@ for post in sub.top(limit=None):
     len_of_longest_post = len(post.selftext)
     id_of_longest_post = post.id
 
-for flair in flairs:
+for flair in ["'PC Help/Bug (Vanilla)'", "'PC Help/Bug (Mod)'", "Solved!", "Meta", "'Guide (Vanilla)'", "'Guide (Mod)'", "'Mod Release'", "'Mod Showcase'", "Suggestion", "Discussion", "Scenario", "#ColonistLife", "'Colony Showcase'", "Story", "Art", "Comic", "Misc", "'Xbox Help/Bug'", "'PS Help/Bug'", "Explicit", "'Designer Map'"]:
   print(flair)
   for post in sub.search("flair:" + flair, sort="top"):
     num_posts += 1
     if len(post.title) > len(longest_title):
       longest_title = post.title
       num_with_longest_title = 1
+      id_of_longest_title = post.id
     elif len(post.title) == len(longest_title):
       num_with_longest_title += 1
     
@@ -57,5 +60,5 @@ for flair in flairs:
 
 print("Number of posts encountered:", num_posts)
 print("Number of post titles with length", len(longest_title), "=", num_with_longest_title)
-print(longest_title)
+print("ID:", id_of_longest_title, "with title:", longest_title)
 print("ID of longest post:", id_of_longest_post)

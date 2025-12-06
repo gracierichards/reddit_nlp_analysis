@@ -179,8 +179,8 @@ cfd = nltk.ConditionalFreqDist((topic0, word)
                                for word in basic_tokenizer(txts[topic0].read()))
 
 for topic in primary_topics:
-  if topic == "hero":
+  if topic == "stranger":
     print("---" + topic + "---")
-    top_words = cfd[topic].most_common(40)
+    top_words = cfd[topic].most_common(20)
     for word, frequency in top_words:
         print(f"  {word}: {frequency}")
