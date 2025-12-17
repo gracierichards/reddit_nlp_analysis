@@ -7,7 +7,7 @@ def my_tokenizer(str):
     return str.lower().split()
   
 counts = {}
-with open("comments_of_top_posts.csv", "r") as file1:
+with open("rimworld/comments_of_top_posts.csv", "r") as file1:
   for line in file1:
     separator = line.rfind(",")
     comment_body = line[0:separator]
@@ -17,7 +17,7 @@ with open("comments_of_top_posts.csv", "r") as file1:
           counts[token] += 1
         else:
           counts[token] = 1
-with open("comments_flairs.csv", "r") as file2:
+with open("rimworld/comments_flairs.csv", "r") as file2:
   for line in file2:
     separator = line.rfind(",")
     comment_body = line[0:separator]

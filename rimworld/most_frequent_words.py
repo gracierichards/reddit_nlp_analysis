@@ -1,39 +1,28 @@
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
 from nltk.book import *
-
-stop_words = set(stopwords.words('english'))
-stemmer = SnowballStemmer("english")
-def my_tokenizer(str):
-  for punc in '.,?!^<>():;/"“”*\\[]…➜':
-    str = str.replace(punc, "")
-  str = str.replace("’", "'")
-  words = str.lower().split()
-    
-  tokens = []
-  for word in words:
-    stemmed = stemmer.stem(word)
-    if stemmed == "sunni":
-      stemmed = "sunny"
-    if stemmed == "aubi":
-      stemmed = "auby"
-    if stemmed == "jawsom" or stemmed == "jawsome":
-      stemmed = "jawsum"
-    if stemmed not in stop_words:
-      tokens.append(stemmed)
-  return tokens
+import os
+import sys
+# Import custom module
+current_dir = os.path.dirname(__file__)
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+sys.path.append(parent_dir)
+from module1 import *
 
 tokens = []
-with open("comments_of_top_posts.csv", "r") as file1:
+with open("rimworld/comments_of_top_posts.csv", "r") as file1:
   for line in file1:
     separator = line.rfind(",")
     comment_body = line[0:separator]
-    tokens.extend(my_tokenizer(comment_body))
-with open("comments_flairs.csv", "r") as file2:
+    tokens.extend(basic_tokenizer(comment_body))
+with open("rimworld/comments_flairs.csv", "r") as file2:
   for line in file2:
     separator = line.rfind(",")
     comment_body = line[0:separator]
-    tokens.extend(my_tokenizer(comment_body))
+    tokens.extend(basic_tokenizer(comment_body))
 
 dist = FreqDist(tokens)
-print(dist.most_common(100))
+i = 1
+for tuple in dist.most_common(100):
+  print(str(i) + ". " + str(tuple))
+  i += 1
