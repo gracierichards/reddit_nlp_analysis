@@ -2,3 +2,5 @@
 __pycache__/module1.cpython-312.pyc
 sorted_txts/*
 praw.ini
+rimworld/comments_flairs.csv
+rimworld/comments_of_top_posts.csv
