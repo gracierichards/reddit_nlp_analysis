@@ -5,6 +5,8 @@ import os
 # Import custom module
 current_dir = os.path.dirname(__file__)
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+print(parent_dir)
+sys.exit()
 sys.path.append(parent_dir)
 from module1 import *
 

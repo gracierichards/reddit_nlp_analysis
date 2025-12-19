@@ -85,7 +85,7 @@ stop_words = set(stopwords.words('english'))
 stemmer = SnowballStemmer("english")
 def basic_tokenizer(str):
   for punc in '.,?!^<>():;/"“”*\\[]…➜':
-    str = str.replace(punc, "")
+    str = str.replace(punc, " ")
   str = str.replace("’", "'")
   words = str.lower().split()
   tokens = []
