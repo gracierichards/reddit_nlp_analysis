@@ -5,8 +5,6 @@ import os
 # Import custom module
 current_dir = os.path.dirname(__file__)
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-print(parent_dir)
-sys.exit()
 sys.path.append(parent_dir)
 from module1 import *
 
@@ -22,12 +20,12 @@ def top_of_all_time():
     post.comments.replace_more(limit=None)
     all_comments = post.comments.list()
     for comment in all_comments:
-      if "proship" in comment.body:
+      if "&#x200B" in comment.body:
         print("1.", post.id)
         print("2.", comment.id)
         print("3.", comment.author)
         print("4.", comment.body)
-      #   sys.exit()
+        sys.exit()
       if is_bot(comment.body):
         continue
       # print(comment.id)
@@ -63,11 +61,11 @@ def search_flair(flair):
 
 # list_of_posts = open("posts_seen.txt", "w")
 # posts_seen = set()
-# top_of_all_time()
+top_of_all_time()
 # comments_csv = open("comments_flairs.csv", "w")
-for flair in flairs:
-  print(flair)
-  search_flair(flair)
+# for flair in flairs:
+#   print(flair)
+#   search_flair(flair)
 # print(len(posts_seen), "posts were collected.")
 
 # Continuing where it leaves off
